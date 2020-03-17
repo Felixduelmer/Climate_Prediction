@@ -1,0 +1,2 @@
+rootProject.name='Climate_Prediction'
+include ':app'
