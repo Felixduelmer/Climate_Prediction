@@ -3,4 +3,12 @@
     <color name="colorPrimary">#6200EE</color>
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
+
+    <color name="black_overlay">#66000000</color>
+    
+    <color name="Blue_1">#142850</color>
+    <color name="Blue_2">#27496d</color>
+    <color name="Blue_3">#0c7b93</color>
+    <color name="Blue_4">#00a8cc</color>
+
 </resources>

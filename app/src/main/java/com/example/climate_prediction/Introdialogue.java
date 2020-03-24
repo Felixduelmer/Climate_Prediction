@@ -1,63 +1,65 @@
 package com.example.climate_prediction;
 
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.ContentResolver;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
-import android.content.res.Resources;
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
 import android.view.View;
 import android.widget.Button;
-import android.widget.VideoView;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import static java.security.AccessController.getContext;
+import org.w3c.dom.Text;
 
-public class StartScreen extends AppCompatActivity {
 
-    VideoView vid_view;
+public class Introdialogue extends AppCompatActivity {
 
-    @SuppressLint("SourceLockedOrientationActivity")
+    ImageView imageView;
+    TextView textView;
+    Button button;
+    int clickcount = 1;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_start_screen);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+        setContentView(R.layout.activity_introdialogue);
 
-        vid_view = (VideoView)findViewById(R.id.videoView);
-        //todo: Auf die verschiedenen Verhältnisse (3:4, 16:9) noch reagieren
-        vid_view.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+        imageView = (ImageView) findViewById(R.id.intro_dialogue_displayed_image);
+        textView = (TextView) findViewById(R.id.intro_dialogue_displayed_Text);
+        button = (Button) findViewById(R.id.intro_dialogue_next_button);
+
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onPrepared(MediaPlayer mp) {
-                mp.setLooping(true);
+            public void onClick(View v) {
+                changeUIElemnts();
             }
         });
 
-        Uri uri = MyGlobals.resourceToUri(getApplicationContext(), R.raw.earth);
-        vid_view.setVideoURI(uri);
-        vid_view.requestFocus();
-        vid_view.start();
-
-
+    }
+    //This is for the different Elements that shall be displayed during the Introduction
+    private void changeUIElemnts() {
+        switch(clickcount){
+            case 1:
+                System.out.println("We´re in case 1");
+                textView.setText(R.string.intro_dialogue_1_text);
+                imageView.setImageURI(MyGlobals.resourceToUri(this, R.drawable.img45754828));
+                break;
+            case 2:
+                System.out.println("We´re in case 2");
+                textView.setText(R.string.intro_dialogue_2_text);
+                imageView.setImageURI(MyGlobals.resourceToUri(this, R.drawable.kernkonzepte_wg2_ar5));
+                break;
+            case 3:
+                System.out.println("Last Page before going to the Main Page");
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
+                break;
+        }
+        clickcount++;
     }
 
-    public void sendMessage(View view){
-        Intent intent = new Intent(this, Introdialogue.class);
-        startActivity(intent);
-    }
-
-
-    //todo: onRestart (falls die App geschlossen wird) noch integrieren dass das Video wieder startet
     @Override
     public void onWindowFocusChanged(boolean hasFocus) {
         super.onWindowFocusChanged(hasFocus);
