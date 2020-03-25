@@ -9,6 +9,7 @@ import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
 
@@ -23,32 +24,43 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MAIN_ACTIVITY";
     MapView map = null;
+    double north = 70, south = -70, east = 180, west = -180;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //todo: Falls das hier nicht erteilt wird, muss nochmal nachgefragt werden
         isStoragePermissionGranted();
         Context ctx = getApplicationContext();
 
         setContentView(R.layout.activity_main);
+        DisplayMetrics metrics = getApplicationContext().getResources().getDisplayMetrics();
+
 
         map = (MapView) findViewById(R.id.map);
         //map.setTileSource(TileSourceFactory.MAPNIK);
         //map.setTileSource(new XYTileSource("Test", 2, 4, 256, ".sqlitedb", *new String[] {"R.raw.Test"}));
+        map.setUseDataConnection(false); //optional, but a good way to prevent loading from the network and test your zip loading.
         map.getTileProvider();
-        map.setScrollableAreaLimitDouble(new BoundingBox(84.051129, 180, -84.051129, -180));
+        map.setScrollableAreaLimitDouble(new BoundingBox(north, east, south, west));
         System.out.println(map.getTileProvider());
         //map.setScrollableAreaLimitDouble(map.getBoundingBox());
-        map.setMaxZoomLevel(4.0);
-        map.setMinZoomLevel(2.5);
+        //map.setMaxZoomLevel(4.0);
+        //map.setMinZoomLevel(2.5);
         map.setMultiTouchControls(true);
+        //map.setScaleY((float) ((metrics.heightPixels/(((north - south) / (east - west)) * metrics.widthPixels))));
+        //map.setScaleX((float) ());
         map.setBuiltInZoomControls(false);
-        map.setUseDataConnection(false); //optional, but a good way to prevent loading from the network and test your zip loading.
+
+        //map.setTilesScaledToDpi(true);
 
         map.post(new Runnable() {
             @Override
             public void run() {
-                map.zoomToBoundingBox(new BoundingBox(85.051129, 180, -85.051129, -180), true);
+                map.zoomToBoundingBox(new BoundingBox(north, east, south, west), true);
             }
         });
 
