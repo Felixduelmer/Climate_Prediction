@@ -6,17 +6,11 @@ import androidx.core.app.ActivityCompat;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
-import android.content.res.Configuration;
 import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 
-import org.osmdroid.api.IMapController;
-import org.osmdroid.tileprovider.tilesource.TileSourceFactory;
-import org.osmdroid.tileprovider.tilesource.XYTileSource;
-import org.osmdroid.util.BoundingBox;
-import org.osmdroid.util.GeoPoint;
 import org.osmdroid.views.MapView;
 
 public class MainActivity extends AppCompatActivity {
@@ -27,35 +21,10 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        isStoragePermissionGranted();
-        Context ctx = getApplicationContext();
+        //isStoragePermissionGranted();
 
         setContentView(R.layout.activity_main);
 
-        map = (MapView) findViewById(R.id.map);
-        //map.setTileSource(TileSourceFactory.MAPNIK);
-        //map.setTileSource(new XYTileSource("Test", 2, 4, 256, ".sqlitedb", *new String[] {"R.raw.Test"}));
-        map.getTileProvider();
-        map.setScrollableAreaLimitDouble(new BoundingBox(84.051129, 180, -84.051129, -180));
-        System.out.println(map.getTileProvider());
-        //map.setScrollableAreaLimitDouble(map.getBoundingBox());
-        map.setMaxZoomLevel(4.0);
-        map.setMinZoomLevel(2.5);
-        map.setMultiTouchControls(true);
-        map.setBuiltInZoomControls(false);
-        map.setUseDataConnection(false); //optional, but a good way to prevent loading from the network and test your zip loading.
-
-        map.post(new Runnable() {
-            @Override
-            public void run() {
-                map.zoomToBoundingBox(new BoundingBox(85.051129, 180, -85.051129, -180), true);
-            }
-        });
-
-//        IMapController mapController = map.getController();
-//        mapController.setZoom(2.0);
-//        GeoPoint startPoint = new GeoPoint(48.8583, 2.2944);
-//        mapController.setCenter(startPoint);
     }
 
 
